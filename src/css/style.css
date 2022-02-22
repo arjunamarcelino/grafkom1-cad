@@ -1,0 +1,38 @@
+body {
+  display: flex;
+  flex-direction: row;
+}
+
+hr {
+  margin-top: 20px;
+}
+
+.control {
+  max-width: 25%;
+  border-right: 2px solid black;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  margin-top: -10px;
+}
+
+.control h1 {
+  font-size: 20px;
+}
+
+.control h2 {
+  font-size: 18px;
+}
+
+.feature {
+  margin-top: 20px;
+}
+
+.feature-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.input {
+  margin-top: 10px;
+}

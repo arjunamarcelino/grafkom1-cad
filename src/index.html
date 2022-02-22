@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="css/style.css">
+    <title>
+        Tugas 1 - 2D Web Based CAD (Computer-Aided Design)
+    </title>
+  </head>
+  <body>
+    <div class="control">
+        <div>
+            <h1>Tugas 1 - IF3260 Grafika Komputer</h1>
+            <h2>2D Web Based CAD (Computer-Aided Design)</h2>
+            <hr>
+        </div>
+        <div class="feature">
+            <b>File</b>
+            <div class="input">
+                <label for="save" style="margin-right: 10px;">Save As </label>
+                <span>:</span>
+                <input type="text" id="save">
+                <button name="save" id="savebutton" onclick="saveData()">Save</button>
+            </div>
+            <div class="input">
+                <label for="load" style="margin-right: 28.8px;">Load  </label>
+                <span>:</span>
+                <input type="file" name="load" id="load">
+            </div>
+            <hr>
+        </div>
+        <div class="feature">
+            <b>Action</b>
+            <div class="feature-row">
+                <div class="input">
+                    <button name="select" id="select" onclick="">Select</button>
+                </div>
+                <div class="input">
+                    <button name="move" id="move" onclick="">Move</button>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="feature">
+            <b>Position</b>
+            
+            <hr>
+        </div>
+        <div class="feature">
+            <b>Resize</b>
+            
+            <hr>
+        </div>
+        <div class="feature">
+            <b>Color</b>
+            <div class="input">
+                <input id="colorPicker" name="colorPicker" type="color" value="#000000">
+            </div>
+            <hr>
+        </div>
+    </div>
+    <div class="canvas">
+        This is canvas
+    </div>
+  </body>
+</html>
