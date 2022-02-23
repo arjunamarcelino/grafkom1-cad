@@ -16,6 +16,13 @@ hr {
   margin-top: -10px;
 }
 
+button {
+  background-color: black;
+  color: white;
+  padding: 5px;
+  width: 90px;
+}
+
 .control h1 {
   font-size: 20px;
 }
