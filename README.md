@@ -1,1 +1,0 @@
-# grafkom1-cad
