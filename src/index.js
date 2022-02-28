@@ -66,6 +66,7 @@ let rect = false;
 let square = false;
 let garis = false;
 let polygon = false;
+let select = false;
 
 function draw(glType, vertices, type, otherProperty = {}) {
   let indices = [];
@@ -210,6 +211,7 @@ function setRectangle() {
   square = false;
   garis = false;
   polygon = false;
+  select = false;
 }
 
 function setLine() {
@@ -219,6 +221,7 @@ function setLine() {
   square = false;
   garis = true;
   polygon = false;
+  select = false;
 }
 
 function drawPolygon() {
@@ -228,6 +231,7 @@ function drawPolygon() {
   square = false;
   garis = false;
   polygon = true;
+  select = false;
 }
 
 function setPolygon() {
@@ -235,6 +239,7 @@ function setPolygon() {
   square = false;
   garis = false;
   polygon = true;
+  select = false;
 }
 
 function setSquare() {
@@ -244,6 +249,7 @@ function setSquare() {
   square = true;
   garis = false;
   polygon = false;
+  select = false;
 }
 
 function saveData() {
@@ -291,6 +297,39 @@ render();
 
 // Select
 function selectObject() {
-  selectPoint = getPosition(event);
-  console;
+  rect = false;
+  square = false;
+  garis = false;
+  polygon = false;
+  select = true;
 }
+
+function moveObject() {
+  rect = false;
+  square = false;
+  garis = false;
+  polygon = false;
+}
+
+function findObj(point, epsilon = 60) {
+  for (const [objIdx, obj] of objectAtCanvas.entries()) {
+    for (const [posIdx, pos] of obj.vertices.entries()) {
+      if (Math.hypot(point.x - pos.x, point.y - pos.y) < epsilon) {
+        return { objIdx, posIdx };
+      }
+    }
+  }
+  return null;
+}
+
+canvas.addEventListener("click", (event) => {
+  if (select) {
+    idxEdit = findObj(getPosition(event));
+    if (idxEdit !== null) {
+      if (objectAtCanvas[idxEdit.objIdx].type == "polygon") {
+        objectAtCanvas[idxEdit.objIdx].color = getColor();
+      }
+      render();
+    }
+  }
+});
