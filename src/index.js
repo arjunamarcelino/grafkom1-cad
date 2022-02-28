@@ -68,6 +68,7 @@ let garis = false;
 let polygon = false;
 let select = false;
 let control = false;
+let resize = false;
 
 function draw(glType, vertices, type, otherProperty = {}) {
   let indices = [];
@@ -214,6 +215,7 @@ function setRectangle() {
   polygon = false;
   select = false;
   control = false;
+  resize = false;
 }
 
 function setLine() {
@@ -225,6 +227,7 @@ function setLine() {
   polygon = false;
   select = false;
   control = false;
+  resize = false;
 }
 
 function drawPolygon() {
@@ -236,6 +239,7 @@ function drawPolygon() {
   polygon = true;
   select = false;
   control = false;
+  resize = false;
 }
 
 function setPolygon() {
@@ -245,6 +249,7 @@ function setPolygon() {
   polygon = true;
   select = false;
   control = false;
+  resize = false;
 }
 
 function setSquare() {
@@ -256,6 +261,7 @@ function setSquare() {
   polygon = false;
   select = false;
   control = false;
+  resize = false;
 }
 
 function saveData() {
@@ -309,6 +315,7 @@ function selectObject() {
   polygon = false;
   select = true;
   control = false;
+  resize = false;
 }
 
 function editObject() {
@@ -318,6 +325,17 @@ function editObject() {
   polygon = false;
   select = true;
   control = true;
+  resize = false;
+}
+
+function resizeObject() {
+  rect = false;
+  square = false;
+  garis = false;
+  polygon = false;
+  select = true;
+  control = false;
+  resize = true;
 }
 
 function findObj(point, epsilon = 60) {
@@ -342,6 +360,74 @@ canvas.addEventListener("click", (event) => {
       if (control) {
         objectAtCanvas[idxEdit.objIdx].vertices[idxEdit.posIdx] =
           getPosition(event);
+      }
+      if (resize) {
+        if (objectAtCanvas[idxEdit.objIdx].type == "square") {
+          if (idxEdit.posIdx == 0) {
+            var delta = Math.max(
+              Math.abs(
+                getPosition(event).x -
+                  objectAtCanvas[idxEdit.objIdx].vertices[0].x
+              ),
+              Math.abs(
+                getPosition(event).y -
+                  objectAtCanvas[idxEdit.objIdx].vertices[0].y
+              )
+            );
+            objectAtCanvas[idxEdit.objIdx].vertices[0].x += delta;
+            objectAtCanvas[idxEdit.objIdx].vertices[0].y += delta;
+            objectAtCanvas[idxEdit.objIdx].vertices[1].x += delta;
+            objectAtCanvas[idxEdit.objIdx].vertices[3].y += delta;
+          }
+          if (idxEdit.posIdx == 1) {
+            var delta = Math.max(
+              Math.abs(
+                getPosition(event).x -
+                  objectAtCanvas[idxEdit.objIdx].vertices[1].x
+              ),
+              Math.abs(
+                getPosition(event).y -
+                  objectAtCanvas[idxEdit.objIdx].vertices[1].y
+              )
+            );
+            objectAtCanvas[idxEdit.objIdx].vertices[1].x += delta;
+            objectAtCanvas[idxEdit.objIdx].vertices[1].y += delta;
+            objectAtCanvas[idxEdit.objIdx].vertices[0].x += delta;
+            objectAtCanvas[idxEdit.objIdx].vertices[2].y += delta;
+          }
+          if (idxEdit.posIdx == 2) {
+            var delta = Math.max(
+              Math.abs(
+                getPosition(event).x -
+                  objectAtCanvas[idxEdit.objIdx].vertices[2].x
+              ),
+              Math.abs(
+                getPosition(event).y -
+                  objectAtCanvas[idxEdit.objIdx].vertices[2].y
+              )
+            );
+            objectAtCanvas[idxEdit.objIdx].vertices[2].x += delta;
+            objectAtCanvas[idxEdit.objIdx].vertices[2].y += delta;
+            objectAtCanvas[idxEdit.objIdx].vertices[3].x += delta;
+            objectAtCanvas[idxEdit.objIdx].vertices[1].y += delta;
+          }
+          if (idxEdit.posIdx == 3) {
+            var delta = Math.max(
+              Math.abs(
+                getPosition(event).x -
+                  objectAtCanvas[idxEdit.objIdx].vertices[3].x
+              ),
+              Math.abs(
+                getPosition(event).y -
+                  objectAtCanvas[idxEdit.objIdx].vertices[3].y
+              )
+            );
+            objectAtCanvas[idxEdit.objIdx].vertices[3].x += delta;
+            objectAtCanvas[idxEdit.objIdx].vertices[3].y += delta;
+            objectAtCanvas[idxEdit.objIdx].vertices[2].x += delta;
+            objectAtCanvas[idxEdit.objIdx].vertices[0].y += delta;
+          }
+        }
       }
     }
   }
