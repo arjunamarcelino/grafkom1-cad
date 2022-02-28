@@ -1,232 +1,117 @@
-function createShader(gl, type, source) {
-  var shader = gl.createShader(type);
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-  var success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-  if (success) {
-    return shader;
-  }
-
-  console.log(gl.getShaderInfoLog(shader));
-  gl.deleteShader(shader);
+function createVertexBuffer(vertices) {
+  const vertex_buffer = gl.createBuffer(); // Create an empty buffer object
+  gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+  return vertex_buffer;
 }
 
-function createProgram(gl, vertexShader, fragmentShader) {
-  var program = gl.createProgram();
-  gl.attachShader(program, vertexShader);
-  gl.attachShader(program, fragmentShader);
-  gl.linkProgram(program);
-  var success = gl.getProgramParameter(program, gl.LINK_STATUS);
-  if (success) {
-    return program;
-  }
-
-  console.log(gl.getProgramInfoLog(program));
-  gl.deleteProgram(program);
+function createIndexBuffer(indices) {
+  var index_buffer = gl.createBuffer(); // Create an empty buffer object
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer); // Bind appropriate array buffer to it
+  gl.bufferData(
+    gl.ELEMENT_ARRAY_BUFFER,
+    new Uint16Array(indices),
+    gl.STATIC_DRAW
+  ); // Pass the vertex data to the buffer
+  return index_buffer;
 }
 
-function rectangle(positions) {
-  // Get the strings for our GLSL shaders
-  var vertexShaderSource = document.querySelector("#vertex-shader-2d").text;
-  var fragmentShaderSource = document.querySelector("#fragment-shader-2d").text;
-
-  // create GLSL shaders, upload the GLSL source, compile the shaders
-  var vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-  var fragmentShader = createShader(
-    gl,
-    gl.FRAGMENT_SHADER,
-    fragmentShaderSource
-  );
-
-  // Link the two shaders into a program
-  var program = createProgram(gl, vertexShader, fragmentShader);
-
-  // look up where the vertex data needs to go.
-  var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
-
-  // Create a buffer and put three 2d clip space points in it
-  var positionBuffer = gl.createBuffer();
-
-  // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
-
-  // code above this line is initialization code.
-  // code below this line is rendering code.
-
-  webglUtils.resizeCanvasToDisplaySize(gl.canvas);
-
-  // Tell WebGL how to convert from clip space to pixels
-  gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-  // Clear the canvas
-  gl.clearColor(0, 0, 0, 0);
-  gl.clear(gl.COLOR_BUFFER_BIT);
-
-  // Tell it to use our program (pair of shaders)
-  gl.useProgram(program);
-
-  // Turn on the attribute
-  gl.enableVertexAttribArray(positionAttributeLocation);
-
-  // Bind the position buffer.
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-  // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-  var size = 2; // 2 components per iteration
-  var type = gl.FLOAT; // the data is 32bit floats
-  var normalize = false; // don't normalize the data
-  var stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
-  var offset = 0; // start at the beginning of the buffer
-  gl.vertexAttribPointer(
-    positionAttributeLocation,
-    size,
-    type,
-    normalize,
-    stride,
-    offset
-  );
-
-  // draw
-  var primitiveType = gl.TRIANGLES;
-  var offset = 0;
-  var count = 200;
-  gl.drawArrays(primitiveType, offset, count);
+function createVertexShader() {
+  const vertCode = [
+    "attribute vec2 coordinate;",
+    "void main(void) {",
+    "   gl_Position = vec4(coordinate, 0.0, 1.0);",
+    "}",
+  ].join("\n");
+  const vertShader = gl.createShader(gl.VERTEX_SHADER); // Create a vertex shader object
+  gl.shaderSource(vertShader, vertCode); // Attach vertex shader source code
+  gl.compileShader(vertShader); // Compile the vertex shader
+  return vertShader;
 }
 
-function line(positions) {
-  // Get the strings for our GLSL shaders
-  var vertexShaderSource = document.querySelector("#vertex-shader-2d").text;
-  var fragmentShaderSource = document.querySelector("#fragment-shader-2d").text;
-
-  // create GLSL shaders, upload the GLSL source, compile the shaders
-  var vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-  var fragmentShader = createShader(
-    gl,
-    gl.FRAGMENT_SHADER,
-    fragmentShaderSource
-  );
-
-  // Link the two shaders into a program
-  var program = createProgram(gl, vertexShader, fragmentShader);
-
-  // look up where the vertex data needs to go.
-  var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
-
-  // Create a buffer and put three 2d clip space points in it
-  var positionBuffer = gl.createBuffer();
-
-  // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
-
-  // code above this line is initialization code.
-  // code below this line is rendering code.
-
-  webglUtils.resizeCanvasToDisplaySize(gl.canvas);
-
-  // Tell WebGL how to convert from clip space to pixels
-  gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-  // Clear the canvas
-  gl.clearColor(0, 0, 0, 0);
-  gl.clear(gl.COLOR_BUFFER_BIT);
-
-  // Tell it to use our program (pair of shaders)
-  gl.useProgram(program);
-
-  // Turn on the attribute
-  gl.enableVertexAttribArray(positionAttributeLocation);
-
-  // Bind the position buffer.
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-  // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-  var size = 2; // 2 components per iteration
-  var type = gl.FLOAT; // the data is 32bit floats
-  var normalize = false; // don't normalize the data
-  var stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
-  var offset = 0; // start at the beginning of the buffer
-  gl.vertexAttribPointer(
-    positionAttributeLocation,
-    size,
-    type,
-    normalize,
-    stride,
-    offset
-  );
-
-  // draw
-  var primitiveType = gl.LINES;
-  var offset = 0;
-  var count = 200;
-  gl.drawArrays(primitiveType, offset, count);
+function createFragmentShader() {
+  const fragCode = [
+    // Fragment shader source code
+    "precision mediump float;",
+    "uniform vec3 color;",
+    "void main(void) {",
+    "   gl_FragColor = vec4(color, 1.0);",
+    "}",
+  ].join("\n");
+  const fragShader = gl.createShader(gl.FRAGMENT_SHADER); // Create fragment shader object
+  gl.shaderSource(fragShader, fragCode); // Attach fragment shader source code
+  gl.compileShader(fragShader); // Compile the fragmentt shader
+  return fragShader;
 }
 
-var rectangleVerts = [],
-  lineVerts = [];
-
-let inc = 0;
-
-function rectanglePos(event, positions) {
-  var canvas = document.querySelector("#c");
-  inc++;
-  console.log(
-    "x: " +
-      (2 * (event.x / canvas.width) - 1) +
-      " y: " +
-      (1 - 2 * (event.y / canvas.height))
-  );
-
-  const x = event.x - canvas.getBoundingClientRect().left;
-  const y = event.y - canvas.getBoundingClientRect().top;
-
-  if (inc % 2 == 1) {
-    positions.push(2 * (x / canvas.width) - 1, 1 - 2 * (y / canvas.height));
-  } else {
-    const x1 = positions[positions.length - 2];
-    const y1 = positions[positions.length - 1];
-    positions.push(x1, 1 - 2 * (y / canvas.height));
-    positions.push(2 * (x / canvas.width) - 1, y1);
-    positions.push(2 * (x / canvas.width) - 1, 1 - 2 * (y / canvas.height));
-    positions.push(x1, 1 - 2 * (y / canvas.height));
-    positions.push(2 * (x / canvas.width) - 1, y1);
-    rectangle(positions);
-  }
+function createShaderProgram(vertShader, fragShader) {
+  const shaderProgram = gl.createProgram(); // the combined shader program
+  gl.attachShader(shaderProgram, vertShader); // Attach a vertex shader
+  gl.attachShader(shaderProgram, fragShader); // Attach a fragment shader
+  gl.linkProgram(shaderProgram); // Link both the programs
+  gl.useProgram(shaderProgram); // Use the combined shader program object
+  return shaderProgram;
 }
 
-function linePos(event, positions) {
-  var canvas = document.querySelector("#c");
-  inc++;
-  console.log(
-    "x: " +
-      (2 * (event.x / canvas.width) - 1) +
-      " y: " +
-      (1 - 2 * (event.y / canvas.height))
-  );
-
-  const x = event.x - canvas.getBoundingClientRect().left;
-  const y = event.y - canvas.getBoundingClientRect().top;
-  positions.push(2 * (x / canvas.width) - 1, 1 - 2 * (y / canvas.height));
-
-  if (inc % 2 == 1) {
-    linePos(positions);
-  }
+function associateShadertoObject(shaderProgram, vertex_buffer, index_buffer) {
+  gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer); // Bind vertex buffer object
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
+  const coord = gl.getAttribLocation(shaderProgram, "coordinate");
+  gl.vertexAttribPointer(coord, 2, gl.FLOAT, false, 0, 0); // Point an attribute to the currently bound VBO
+  gl.enableVertexAttribArray(coord); // Enable the attribute
 }
 
+// Get color and convert to vector
+function getColor() {
+  return document.getElementById("colorPicker").value;
+  //   const colorRGB = document.getElementById("colorPicker").value;
+  //   return colorRGB
+  //     .replace(
+  //       /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
+  //       (m, r, g, b) => "#" + r + r + g + g + b + b
+  //     )
+  //     .substring(1)
+  //     .match(/.{2}/g)
+  //     .map((x) => parseInt(x, 16) / 255);
+}
+
+// Clear canvas
 function clearCanvas() {
-  rectangleVerts = [];
-  lineVerts = [];
+  objectAtCanvas = [];
+  gl.clearColor(1, 1, 1, 1);
   gl.clear(gl.DEPTH_BUFFER_BIT);
 }
 
-// Get A WebGL context
-var canvas = document.querySelector("#c");
-var gl = canvas.getContext("webgl");
-if (!gl) {
-  throw new Error("Browser does not support web gl!");
+// Get vertex number
+function getNumVertex() {
+  return document.getElementById("numVertex").value;
 }
 
-canvas.addEventListener("click", (e) => rectanglePos(e, lineVerts));
+// Get name to save file
+function getNameFile() {
+  return document.getElementById("save").value;
+}
+
+// Get position mouse
+function getPosition(event) {
+  const x = event.clientX - canvas.getBoundingClientRect().left;
+  const y = event.clientY - canvas.getBoundingClientRect().top;
+  return { x, y };
+}
+
+// Get shape to draw
+function getShape(rectangle, square, garis, polygon) {
+  if (rectangle) {
+    return "rectangle";
+  }
+  if (square) {
+    return "square";
+  }
+  if (garis) {
+    return "line";
+  }
+  if (polygon) {
+    return "polygon";
+  }
+  return "";
+}
