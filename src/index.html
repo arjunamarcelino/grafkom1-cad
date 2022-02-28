@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="index.js" defer></script>
     <script src="util.js" defer></script>
+    <script src="index.js" defer></script>
     <link rel="stylesheet" href="css/style.css">
     <title>
         Tugas 1 - 2D Web Based CAD (Computer-Aided Design)
@@ -29,7 +30,7 @@
             <div class="input">
                 <label for="load" style="margin-right: 28.8px;">Load  </label>
                 <span>:</span>
-                <input type="file" name="load" id="load">
+                <input type="file" name="load" id="load" onchange="loadData()">
             </div>
             <hr>
         </div>
@@ -79,16 +80,6 @@
             <hr>
         </div>
         <div class="feature">
-            <b>Position</b>
-            
-            <hr>
-        </div>
-        <div class="feature">
-            <b>Resize</b>
-            
-            <hr>
-        </div>
-        <div class="feature">
             <b>Color</b>
             <div class="input">
                 <input id="colorPicker" name="colorPicker" type="color" value="#000000">
@@ -103,7 +94,7 @@
              <hr>
          </div>
     </div>
-    <canvas id="c" width="800" height="800">
+    <canvas id="c" width="800" height="750">
         <script id="vertex-shader-2d" type="notjs">
  
             // an attribute will receive data from a buffer

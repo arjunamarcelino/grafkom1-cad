@@ -222,28 +222,6 @@ function clearCanvas() {
   gl.clear(gl.DEPTH_BUFFER_BIT);
 }
 
-function setRectangle() {
-  document.getElementById("draw-polygon").style.visibility = "hidden";
-  document.getElementById("action").style.marginTop = "-89px";
-}
-
-function setLine() {
-  document.getElementById("draw-polygon").style.visibility = "hidden";
-  document.getElementById("action").style.marginTop = "-89px";
-}
-
-function drawPolygon() {
-  document.getElementById("draw-polygon").style.visibility = "visible";
-  document.getElementById("action").style.marginTop = "0";
-}
-
-function setPolygon() {}
-
-function setSquare() {
-  document.getElementById("draw-polygon").style.visibility = "hidden";
-  document.getElementById("action").style.marginTop = "-89px";
-}
-
 // Get A WebGL context
 var canvas = document.querySelector("#c");
 var gl = canvas.getContext("webgl");
