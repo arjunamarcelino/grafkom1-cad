@@ -43,3 +43,11 @@ button {
 .input {
   margin-top: 10px;
 }
+
+#draw-polygon {
+  visibility: hidden;
+}
+
+#action {
+  margin-top: -89px;
+}

@@ -172,6 +172,7 @@ var rectangleVerts = [],
   lineVerts = [];
 
 let inc = 0;
+
 function rectanglePos(event, positions) {
   var canvas = document.querySelector("#c");
   inc++;
@@ -227,13 +228,32 @@ function clearCanvas() {
 var status;
 
 function setRectangle() {
+  document.getElementById("draw-polygon").style.visibility = "hidden";
+  document.getElementById("action").style.marginTop = "-89px";
   status = "rectangle";
   console.log(status);
 }
 
 function setLine() {
+  document.getElementById("draw-polygon").style.visibility = "hidden";
+  document.getElementById("action").style.marginTop = "-89px";
   status = "line";
   console.log(status);
+}
+
+function drawPolygon() {
+  document.getElementById("draw-polygon").style.visibility = "visible";
+  document.getElementById("action").style.marginTop = "0";
+
+  // status = "line";
+  console.log(status);
+}
+
+function setPolygon() {}
+
+function setSquare() {
+  document.getElementById("draw-polygon").style.visibility = "hidden";
+  document.getElementById("action").style.marginTop = "-89px";
 }
 
 // Get A WebGL context

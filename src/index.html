@@ -44,15 +44,25 @@
             </div>
             <div class="feature-row">
                 <div class="input">
-                    <button name="square" id="square" onclick="">Square</button>
+                    <button name="square" id="square" onclick="setSquare()">Square</button>
                 </div>
                 <div class="input" style="margin-left: 90px;">
-                    <button name="polygon" id="polygon" onclick="">Polygon</button>
+                    <button name="polygon" id="polygon" onclick="drawPolygon()">Polygon</button>
                 </div>
             </div>
             <hr>
         </div>
-        <div class="feature">
+        <div class="feature" id="draw-polygon">
+            <b>Polygon</b>
+            <div class="input">
+                <label for="save" style="margin-right: 10px;">Number Vertex </label>
+                <span>:</span>
+                <input type="number" id="numVertex" style="max-width: 60px;">
+                <button name="drawPolygon" id="drawPolygon" style="width: 150px;" onclick="setPolygon()">Draw Polygon</button>
+            </div>
+            <hr>
+        </div>
+        <div class="feature" id="action">
             <b>Action</b>
             <div class="feature-row">
                 <div class="input">
