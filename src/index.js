@@ -1,6 +1,6 @@
 // Get A WebGL context
 const canvas = document.querySelector("#c");
-canvas.width = 800;
+canvas.width = 1150;
 canvas.height = 750;
 
 const gl =
@@ -288,3 +288,9 @@ canvas.addEventListener("mousemove", dragging, false);
 canvas.addEventListener("mouseup", dragStop, false);
 
 render();
+
+// Select
+function selectObject() {
+  selectPoint = getPosition(event);
+  console;
+}
