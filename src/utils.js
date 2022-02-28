@@ -1,6 +1,3 @@
-/* eslint no-console:0 consistent-return:0 */
-"use strict";
-
 function createShader(gl, type, source) {
   var shader = gl.createShader(type);
   gl.shaderSource(shader, source);
@@ -225,28 +222,19 @@ function clearCanvas() {
   gl.clear(gl.DEPTH_BUFFER_BIT);
 }
 
-var status;
-
 function setRectangle() {
   document.getElementById("draw-polygon").style.visibility = "hidden";
   document.getElementById("action").style.marginTop = "-89px";
-  status = "rectangle";
-  console.log(status);
 }
 
 function setLine() {
   document.getElementById("draw-polygon").style.visibility = "hidden";
   document.getElementById("action").style.marginTop = "-89px";
-  status = "line";
-  console.log(status);
 }
 
 function drawPolygon() {
   document.getElementById("draw-polygon").style.visibility = "visible";
   document.getElementById("action").style.marginTop = "0";
-
-  // status = "line";
-  console.log(status);
 }
 
 function setPolygon() {}

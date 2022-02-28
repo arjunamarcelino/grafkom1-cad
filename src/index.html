@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="utils.js" defer></script>
+    <script src="index.js" defer></script>
+    <script src="util.js" defer></script>
     <link rel="stylesheet" href="css/style.css">
     <title>
         Tugas 1 - 2D Web Based CAD (Computer-Aided Design)
@@ -57,7 +58,7 @@
             <div class="input">
                 <label for="save" style="margin-right: 10px;">Number Vertex </label>
                 <span>:</span>
-                <input type="number" id="numVertex" style="max-width: 60px;">
+                <input type="number" id="numVertex" min="3" value="3"style="max-width: 60px;">
                 <button name="drawPolygon" id="drawPolygon" style="width: 150px;" onclick="setPolygon()">Draw Polygon</button>
             </div>
             <hr>
